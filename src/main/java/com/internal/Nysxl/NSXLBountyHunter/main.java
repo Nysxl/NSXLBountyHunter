@@ -1,7 +1,9 @@
 package com.internal.Nysxl.NSXLBountyHunter;
 
 import com.internal.Nysxl.NSXLBountyHunter.Bounties.Bounties;
+import com.internal.Nysxl.NSXLBountyHunter.Commands.BountyHunter;
 import com.internal.Nysxl.NSXLBountyHunter.Utils.Balance;
+import com.internal.nysxl.NysxlUtilities.CommandManager.CommandManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 
 public class main extends JavaPlugin {
 
+    public CommandManager commandManager = new CommandManager(this);
     public static ArrayList<Bounties> activeBounties = new ArrayList<>();
     private static Economy econ = null;
     public static Balance balance;
@@ -23,6 +26,7 @@ public class main extends JavaPlugin {
         }
 
         balance = new Balance();
+        registerCommands();
     }
 
     private boolean setupEconomy() {
@@ -40,4 +44,11 @@ public class main extends JavaPlugin {
     public static Economy getEconomy() {
         return econ;
     }
+
+    public void registerCommands(){
+        commandManager.registerCommand("BountyHunter", new BountyHunter());
+        commandManager.registerCommand("setBounty", new BountyHunter());
+    }
+
+
 }

@@ -5,5 +5,8 @@ main: com.internal.nysxl.NSXLBountyHunter.main
 depend: [NysxlUtilities, Vault]
 commands:
   BountyHunter:
-    description: Opens a GUI with all active Bounties
+    description: Opens a GUI with all active Bounties.
     usage: /BountyHunter
+  SetBounty:
+    description: Sets a Bounty on a player.
+    usage: /SetBounty [Player] [reward]

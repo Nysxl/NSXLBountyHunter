@@ -32,7 +32,7 @@ public class BountyGUI {
 
         for(Bounties bounty : bounties) {
             ItemFactory factory = new ItemFactory(bounty.playerHead());
-            factory.setLore("Bounty: " + bounty.reward());
+            factory.setLore("Bounty reward: $" + bounty.reward());
             gui.addItem(factory.buildItem(), new DynamicButton(0, factory.buildItem()));
         }
     }
