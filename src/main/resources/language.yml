@@ -1,0 +1,3 @@
+BOUNTY_SET_MESSAGE: "You've set a bounty on %player% for $%reward%"
+NOT_ENOUGH_MONEY: "You dont have enough money to set this bounty"
+CLAIMED_BOUNTY: "You've claimed %player%'s bounty for $%reward%"

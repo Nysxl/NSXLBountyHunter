@@ -27,6 +27,6 @@ public class BountyHunter implements CommandInterface {
 
     @Override
     public boolean hasPermission(CommandSender commandSender) {
-        return false;
+        return commandSender.hasPermission("NSXL.gui");
     }
 }

@@ -1,6 +1,8 @@
 package com.internal.Nysxl.NSXLBountyHunter.Commands;
 
 import com.internal.Nysxl.NSXLBountyHunter.Bounties.Bounties;
+import com.internal.Nysxl.NSXLBountyHunter.LanguageManager.Language;
+import com.internal.Nysxl.NSXLBountyHunter.LanguageManager.LanguageManager;
 import com.internal.Nysxl.NSXLBountyHunter.main;
 import com.internal.nysxl.NysxlUtilities.ItemBuilder.ItemFactory;
 import com.internal.nysxl.NysxlUtilities.Utility.Commands.CommandInterface;
@@ -39,7 +41,8 @@ public class setBounty implements CommandInterface {
                 }
 
                 if(main.balance.getPlayerBalance(player.getUniqueId()) < reward){
-                    player.sendMessage("You don't have enough money to place this bounty");
+                    String message = main.getLanguageManager().getMessage(Language.NOT_ENOUGH_MONEY);
+                    player.sendMessage(message);
                     return true;
                 }
 
@@ -70,6 +73,6 @@ public class setBounty implements CommandInterface {
 
     @Override
     public boolean hasPermission(CommandSender commandSender) {
-        return false;
+        return commandSender.hasPermission("NSXL.setBounty");
     }
 }

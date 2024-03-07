@@ -4,8 +4,10 @@ import com.internal.Nysxl.NSXLBountyHunter.Bounties.Bounties;
 import com.internal.Nysxl.NSXLBountyHunter.Commands.BountyHunter;
 import com.internal.Nysxl.NSXLBountyHunter.Commands.setBounty;
 import com.internal.Nysxl.NSXLBountyHunter.ConfigManager.NSXLBountyHunterConfigManager;
+import com.internal.Nysxl.NSXLBountyHunter.LanguageManager.LanguageManager;
 import com.internal.Nysxl.NSXLBountyHunter.Utils.Balance;
 import com.internal.nysxl.NysxlUtilities.CommandManager.CommandManager;
+import com.internal.nysxl.NysxlUtilities.ConfigManager.ConfigManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -19,8 +21,8 @@ public class main extends JavaPlugin {
     public static ArrayList<Bounties> activeBounties = new ArrayList<>();
     private static Economy econ = null;
     public static Balance balance;
-    public static NSXLBountyHunterConfigManager cfgM;
-
+    private static ConfigManager cfgM;
+    private static LanguageManager languageManager = new LanguageManager();
 
     @Override
     public void onEnable() {
@@ -32,8 +34,13 @@ public class main extends JavaPlugin {
 
         balance = new Balance();
         registerCommands();
-        cfgM = new NSXLBountyHunterConfigManager(this);
-        cfgM.loadBounties();
+
+
+        cfgM = new ConfigManager(this);
+
+        languageManager.loadLanguage();
+
+        NSXLBountyHunterConfigManager.loadBounties();
     }
 
     private boolean setupEconomy() {
@@ -57,7 +64,11 @@ public class main extends JavaPlugin {
         commandManager.registerCommand("setBounty", new setBounty());
     }
 
-    public static NSXLBountyHunterConfigManager getCfgM() {
+    public static ConfigManager getCfgM() {
         return cfgM;
+    }
+
+    public static LanguageManager getLanguageManager() {
+        return languageManager;
     }
 }

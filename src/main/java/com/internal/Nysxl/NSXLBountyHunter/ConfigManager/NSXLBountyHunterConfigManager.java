@@ -16,28 +16,21 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NSXLBountyHunterConfigManager {
-
-    private ConfigManager configManager;
-
-    public NSXLBountyHunterConfigManager(Plugin plugin){
-        configManager = new ConfigManager(plugin);
-    }
-
-    public void saveBounties() {
+    public static void saveBounties() {
         List<Map<String, Object>> serializedBounties = main.activeBounties.stream().
                 map(Bounties::serialize).toList();
 
         Bukkit.broadcastMessage(serializedBounties.size()+"");
 
-        configManager.getConfig("bounties.yml").set("bounties", serializedBounties);
-        configManager.saveConfig("bounties.yml");
+        main.getCfgM().getConfig("bounties.yml").set("bounties", serializedBounties);
+        main.getCfgM().saveConfig("bounties.yml");
     }
 
-    public void saveBounty(Bounties bounty) {
+    public static void saveBounty(Bounties bounty) {
 
         Map<String, Object> serializedBounty = bounty.serialize();
 
-        FileConfiguration config = configManager.getConfig("bounties.yml");
+        FileConfiguration config = main.getCfgM().getConfig("bounties.yml");
         List<Map<?, ?>> existingBounties = config.getMapList("bounties");
 
         if (existingBounties.isEmpty()) {
@@ -47,11 +40,11 @@ public class NSXLBountyHunterConfigManager {
         existingBounties.add(serializedBounty);
 
         config.set("bounties", existingBounties);
-        configManager.saveConfig("bounties.yml");
+        main.getCfgM().saveConfig("bounties.yml");
     }
 
-    public void loadBounties(){
-        FileConfiguration config = configManager.getConfig("bounties.yml");
+    public static void loadBounties(){
+        FileConfiguration config = main.getCfgM().getConfig("bounties.yml");
         List<Map<?,?>> serializedBounties = config.getMapList("bounties");
 
         main.activeBounties = (ArrayList<Bounties>) serializedBounties.stream().

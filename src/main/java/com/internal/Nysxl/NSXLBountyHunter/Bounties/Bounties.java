@@ -1,5 +1,8 @@
 package com.internal.Nysxl.NSXLBountyHunter.Bounties;
 
+import com.internal.Nysxl.NSXLBountyHunter.ConfigManager.NSXLBountyHunterConfigManager;
+import com.internal.Nysxl.NSXLBountyHunter.LanguageManager.Language;
+import com.internal.Nysxl.NSXLBountyHunter.LanguageManager.LanguageManager;
 import com.internal.Nysxl.NSXLBountyHunter.main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,8 +23,12 @@ public record Bounties(UUID playerUUID, ItemStack playerHead, double reward) {
         main.balance.addBalance(killer.getUniqueId(), (this.reward() * 0.9));
         main.activeBounties.remove(this);
 
-        killer.sendMessage("You've Claimed the reward on " + Bukkit.getPlayer(playerUUID).getDisplayName() + "'s head heres your reward: $" + reward);
-        main.getCfgM().saveBounties();
+        String message = main.getLanguageManager().getMessage(Language.CLAIMED_BOUNTY);
+        message = LanguageManager.parsePlaceHolder(message, "%player%", Bukkit.getPlayer(playerUUID).getDisplayName());
+        message = LanguageManager.parsePlaceHolder(message, "%reward%", reward+"");
+
+        killer.sendMessage(message);
+        NSXLBountyHunterConfigManager.saveBounties();
     }
 
     /**
@@ -36,9 +43,13 @@ public record Bounties(UUID playerUUID, ItemStack playerHead, double reward) {
 
             main.activeBounties.add(this);
 
-            p.sendMessage("Bounty set on " + Bukkit.getPlayer(playerUUID).getDisplayName() + " for $" + reward);
+            String message = main.getLanguageManager().getMessage(Language.BOUNTY_SET_MESSAGE);
+            message = LanguageManager.parsePlaceHolder(message, "%player%", Bukkit.getPlayer(playerUUID).getDisplayName());
+            message = LanguageManager.parsePlaceHolder(message, "%reward%", reward+"");
 
-            main.getCfgM().saveBounty(this);
+            p.sendMessage(message);
+
+            NSXLBountyHunterConfigManager.saveBounty(this);
         }
     }
 
