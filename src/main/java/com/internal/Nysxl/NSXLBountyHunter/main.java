@@ -2,9 +2,12 @@ package com.internal.Nysxl.NSXLBountyHunter;
 
 import com.internal.Nysxl.NSXLBountyHunter.Bounties.Bounties;
 import com.internal.Nysxl.NSXLBountyHunter.Commands.BountyHunter;
+import com.internal.Nysxl.NSXLBountyHunter.Commands.setBounty;
+import com.internal.Nysxl.NSXLBountyHunter.ConfigManager.NSXLBountyHunterConfigManager;
 import com.internal.Nysxl.NSXLBountyHunter.Utils.Balance;
 import com.internal.nysxl.NysxlUtilities.CommandManager.CommandManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,6 +19,8 @@ public class main extends JavaPlugin {
     public static ArrayList<Bounties> activeBounties = new ArrayList<>();
     private static Economy econ = null;
     public static Balance balance;
+    public static NSXLBountyHunterConfigManager cfgM;
+
 
     @Override
     public void onEnable() {
@@ -27,6 +32,8 @@ public class main extends JavaPlugin {
 
         balance = new Balance();
         registerCommands();
+        cfgM = new NSXLBountyHunterConfigManager(this);
+        cfgM.loadBounties();
     }
 
     private boolean setupEconomy() {
@@ -47,8 +54,10 @@ public class main extends JavaPlugin {
 
     public void registerCommands(){
         commandManager.registerCommand("BountyHunter", new BountyHunter());
-        commandManager.registerCommand("setBounty", new BountyHunter());
+        commandManager.registerCommand("setBounty", new setBounty());
     }
 
-
+    public static NSXLBountyHunterConfigManager getCfgM() {
+        return cfgM;
+    }
 }

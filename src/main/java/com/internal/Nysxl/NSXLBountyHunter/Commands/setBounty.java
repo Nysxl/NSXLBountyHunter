@@ -19,7 +19,6 @@ public class setBounty implements CommandInterface {
     @Override
     public boolean onCommand(CommandSender commandSender, String[] strings) {
         if(commandSender instanceof Player player){
-
             //checks that there are at least 2 arguments
             if(strings.length == 2){
 
@@ -36,14 +35,22 @@ public class setBounty implements CommandInterface {
                 try {
                     reward = Double.parseDouble(strings[1]);
                 } catch (NumberFormatException e) {
-                    player.sendMessage("Invalid Number");
                     return false;
                 }
 
-                //adds a new active bounty.
-                main.activeBounties.add(new Bounties(targetPlayer.getUniqueId(),
+                if(main.balance.getPlayerBalance(player.getUniqueId()) < reward){
+                    player.sendMessage("You don't have enough money to place this bounty");
+                    return true;
+                }
+
+                Bounties bounty = new Bounties(targetPlayer.getUniqueId(),
                         new ItemFactory(new ItemStack(Material.PLAYER_HEAD)).withSkullOfPlayer(targetPlayer),
-                        reward));
+                        reward);
+
+                //adds a new active bounty.
+                bounty.setBounty(player, reward);
+
+                return true;
             }
         }
         return false;

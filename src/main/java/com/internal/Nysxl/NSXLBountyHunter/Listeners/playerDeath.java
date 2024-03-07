@@ -1,12 +1,15 @@
 package com.internal.Nysxl.NSXLBountyHunter.Listeners;
 
 import com.internal.Nysxl.NSXLBountyHunter.Bounties.Bounties;
-import com.internal.Nysxl.NSXLBountyHunter.Utils.Balance;
 import com.internal.Nysxl.NSXLBountyHunter.main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class playerDeath implements Listener {
 
@@ -18,12 +21,14 @@ public class playerDeath implements Listener {
 
         //checks through all active bounties and returns
         // if the player who died has an active bounty.
-        Bounties b = main.activeBounties.parallelStream().filter(s->s.playerUUID().
-                equals(player.getUniqueId())).findFirst().orElse(null);
+        List<Bounties> b = main.activeBounties.parallelStream().filter(s->s.playerUUID().
+                equals(player.getUniqueId())).collect(Collectors.toList());
 
-        if(b == null) return;
+        if(b.isEmpty()) return;
 
-        b.claimBounty(killer);
+        for(Bounties bounty: b){
+            bounty.claimBounty(player);
+        }
     }
 
 

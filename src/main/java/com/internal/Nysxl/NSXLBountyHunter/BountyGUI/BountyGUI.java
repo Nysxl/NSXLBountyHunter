@@ -8,7 +8,6 @@ import com.internal.nysxl.NysxlUtilities.ItemBuilder.ItemFactory;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class BountyGUI {
 
