@@ -1,0 +1,12 @@
+name: NSXLBountyHunter
+version: 1
+api-version: 1.20
+main: com.internal.Nysxl.NSXLBountyHunter.main
+depend: [NysxlUtilities, Vault]
+commands:
+  BountyHunter:
+    description: Opens a GUI with all active Bounties.
+    usage: /BountyHunter
+  SetBounty:
+    description: Sets a Bounty on a player.
+    usage: /SetBounty [Player] [reward]
